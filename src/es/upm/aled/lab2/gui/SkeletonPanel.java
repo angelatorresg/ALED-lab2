@@ -59,10 +59,10 @@ public class SkeletonPanel extends JPanel {
 		// TODO: Ponga comentarios en este método
 		g.fillOval((int) node.getX() - 4, (int) node.getY() - 4, 8, 8);
 		g.drawLine((int) parentX, (int) parentY, (int) node.getX(), (int) node.getY());
-		if (node.getChildren().size() == 0) {
+		if (node.getChildren().size() == 0) { //Caso base
 			return;
 		}
-		for (Node child : node.getChildren()) {
+		for (Node child : node.getChildren()) { //Paso recursivo
 			drawSkeleton(g, node.getX(), node.getY(), child);
 		}
 	}
