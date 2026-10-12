@@ -1,6 +1,7 @@
 package es.upm.aled.lab2.kinematics;
 
 import java.util.List;
+import java.util.ArrayList;
 
 // TODO: Implemente la clase
 public class Segment {
@@ -11,6 +12,7 @@ public class Segment {
 	public Segment (double length, double angle) {
 		this.length=length;
 		this.angle=angle;
+		this.children = new ArrayList<>();
 	}
 	
 	public double getLength() {
@@ -29,7 +31,7 @@ public class Segment {
 		return children;
 	}
 	
-	public void addChildren(Segment child) {
+	public void addChild(Segment child) {
 		if (!children.contains(child))
 			children.add(child);
 	}

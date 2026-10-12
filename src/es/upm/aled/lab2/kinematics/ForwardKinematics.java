@@ -1,8 +1,5 @@
 package es.upm.aled.lab2.kinematics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.upm.aled.lab2.gui.Node;
 
 /**
@@ -34,19 +31,29 @@ public class ForwardKinematics {
 
 	// Private helper method that implements the recursive algorithm
 	private static Node computePositions(Segment link, double baseX, double baseY, double accumulatedAngle) {
-		Node nodo = new Node(baseX, baseY);
+		long startTime = System.nanoTime();
+		
+		double currentAngle = link.getAngle() + accumulatedAngle;
+		double x = baseX + link.getLength()*Math.cos(currentAngle);
+		double y = baseY + link.getLength()*Math.sin(currentAngle);
+		Node nodo = new Node(x, y);
+		
 		if(link.getChildren().size() == 0) {
+			long runningTime = System.nanoTime()- startTime; 
+			System.out.println("Tiempo de computePositions para un segmento con " + 
+					link.getChildren().size() + " hijos: " + runningTime + " nanosegundos");
+			
 			return nodo;
 		}
 		
-		double nuevaX = baseX + link.getLength()*Math.cos(link.getAngle() + accumulatedAngle);
-		double nuevaY = baseY + link.getLength()*Math.sin(link.getAngle() + accumulatedAngle);
-		Node nodoHijo = new Node(nuevaX, nuevaY);
-		nodo.addChild(nodoHijo);
 		for(Segment child : link.getChildren()) {
-			accumulatedAngle = link.getAngle() + accumulatedAngle;
-			return computePositions(child, nuevaX, nuevaY, accumulatedAngle);
+			Node hijo = computePositions(child, x, y, currentAngle);
+			nodo.addChild(hijo);
 		}
+		long runningTime = System.nanoTime()- startTime; 
+		System.out.println("Tiempo de computePositions para un segmento con " + 
+				link.getChildren().size() + " hijos: " + runningTime + " nanosegundos");
+		
 		return nodo;
 		// TODO: Implemente este método
 	}
